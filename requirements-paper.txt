@@ -1,0 +1,15 @@
+numpy
+pandas
+Pillow
+tqdm
+opencv-python
+scipy
+diffusers
+transformers
+accelerate
+safetensors
+sentencepiece
+insightface
+onnxruntime
+clean-fid
+torchvision
