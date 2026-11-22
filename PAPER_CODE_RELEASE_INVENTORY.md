@@ -20,22 +20,15 @@ refactored and tested.
 | `train_age_velocity_adapter_v1.py` | Adapter architecture, four training losses, optimization and checkpoint saving. |
 | `evaluate_age_velocity_adapter_v1.py` | Evaluate adapter residual predictions on indexed cache records. |
 | `infer_age_velocity_adapter_v1.py` | Final detail-conditioned image inference; separate base/detail/adapted trajectories. |
-| `infer_prompt_id_images_v2.py` | Imported FLUX helpers: prompt encoding, transformer calls, VAE packing/decoding, scheduler setup and contact sheet. |
-| `age_prompt_id_adapter_v2.py` | Required by top-level imports in the helper module. |
-| `age_prompt_id_adapter_v6.py` | Required by top-level imports in the helper module. |
-| `age_prompt_id_adapter_v7.py` | Required by top-level imports in the helper module. |
-| `age_prompt_id_adapter_v8.py` | Required by top-level imports in the helper module. |
+| `flux_inference_utils.py` | Shared FLUX helpers: prompt encoding, transformer calls, VAE packing/decoding, scheduler setup and contact sheets. |
 | `metric/evaluate_aging_metrics.py` | Age-MAE, identity cosine and face validity; optional FID support. |
 | `metric/evaluate_fid.py` | Dedicated FID with reproducible equal-sized real/fake subsets. |
 
-The v2/v6/v7/v8 adapter modules above are import dependencies, not four methods
-used in this paper. Their local imports close within this set. The helper also
-contains a dynamic import of `age_prompt_id_adapter_v1` in its legacy
-`load_adapter` function. That function is NOT called by the final v1 inference
-entry point, which has its own checkpoint loader. If publishing the helper as a
-standalone legacy entry point too, audit that separate execution route and
-include `age_prompt_id_adapter_v1.py` as needed. Alternatively, extract just the
-shared FLUX helpers in a subsequent, tested refactor.
+The former prompt-ID helper contained several historical adapter versions.
+They were not methods used in this paper and have been removed from this
+release. The v1 inference entry point now imports only the shared utilities in
+`flux_inference_utils.py` and loads `AdaptiveAgeVelocityAdapter` directly from
+`train_age_velocity_adapter_v1.py`.
 
 ## 2. Existing launchers to include after path cleanup
 
@@ -110,8 +103,7 @@ source IDs / age and visibility metadata
      -> evaluate_age_velocity_adapter_v1.py
      -> infer_age_velocity_adapter_v1.py
         -> train_age_velocity_adapter_v1.AdaptiveAgeVelocityAdapter
-        -> infer_prompt_id_images_v2 helpers
-           -> age_prompt_id_adapter_v2/v6/v7/v8 (top-level imports)
+        -> flux_inference_utils.py
         -> base/detail/adapter images and diagnostics
            -> metric/evaluate_aging_metrics.py
            -> metric/evaluate_fid.py

@@ -32,6 +32,8 @@ from their respective official sources and follow their licenses.
 - `train_age_velocity_adapter_v1.py`: trains the lightweight residual adapter.
 - `infer_age_velocity_adapter_v1.py`: runs base, detail, and adapted FLUX
   trajectories.
+- `flux_inference_utils.py`: shared FLUX prompt, latent, transformer,
+  scheduler, and decoding utilities used by the v1 inference script.
 - `metric/evaluate_aging_metrics.py`: computes age error, identity cosine,
   and valid-face rate with InsightFace.
 - `metric/evaluate_fid.py`: computes FID using equal-sized image subsets.

@@ -11,7 +11,7 @@ from PIL import Image
 from diffusers import FluxImg2ImgPipeline
 
 from train_age_velocity_adapter_v1 import AdaptiveAgeVelocityAdapter
-from infer_prompt_id_images_v2 import (
+from flux_inference_utils import (
     call_transformer,
     condition_kwargs,
     dtype_from_name,
